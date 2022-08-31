@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { auth, validation, ctrlWrapper } = require("../../middlewares");
+const { auth, validation, upload, ctrlWrapper } = require("../../middlewares");
 const { users: ctrl } = require('../../controllers');
 const { owner: ctrlOwner } = require('../../controllers');
 
@@ -15,5 +15,7 @@ router.post('/login', validation(joiSchema), ctrlWrapper(ctrl.login));
 router.get('/logout', auth, ctrlWrapper(ctrl.logout));
 
 router.get('/current', auth, ctrlWrapper(ctrlOwner.getCurrent));
+
+router.patch('/avatars', auth, upload.single('avatar'), ctrlWrapper(ctrlOwner.updateAvatar));
 
 module.exports = router;
